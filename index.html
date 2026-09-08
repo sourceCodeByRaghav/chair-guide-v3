@@ -1,478 +1,945 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chairs for Kanishka</title>
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    font-family: "Amazon Ember", Arial, Helvetica, sans-serif;
-    background: #eaeded;
-    color: #0f1111;
-    line-height: 1.5;
-  }
-  a { text-decoration: none; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chairs for Kanishka</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-  /* ---- Top nav bar (Amazon style) ---- */
-  .topbar {
-    background: #131921;
-    color: #fff;
-    padding: 12px 24px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
-  .topbar .logo { font-size: 1.5em; font-weight: 700; color: #fff; }
-  .topbar .logo span { color: #febd69; }
-  .topbar .tag { font-size: 0.85em; color: #cfd3d6; }
-  .subbar {
-    background: #232f3e;
-    color: #fff;
-    padding: 8px 24px;
-    font-size: 0.9em;
-    display: flex;
-    gap: 22px;
-  }
-  .subbar a { color: #fff; }
-  .subbar a:hover { text-decoration: underline; }
+    body {
+      font-family: "Amazon Ember", Arial, Helvetica, sans-serif;
+      background: #eaeded;
+      color: #0f1111;
+      line-height: 1.5;
+    }
 
-  .wrap { max-width: 1300px; margin: 18px auto; padding: 0 16px; }
+    a {
+      text-decoration: none;
+    }
 
-  .panel {
-    background: #fff;
-    border-radius: 8px;
-    padding: 26px;
-    margin-bottom: 18px;
-    border: 1px solid #d5d9d9;
-  }
-  .panel h2 {
-    font-size: 1.5em;
-    margin-bottom: 4px;
-  }
-  .panel .sub { color: #565959; font-size: 0.92em; margin-bottom: 20px; }
+    .topbar {
+      background: #131921;
+      color: #fff;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
 
-  /* ---- Criteria ---- */
-  .criteria-img {
-    width: 100%;
-    max-width: 560px;
-    display: block;
-    margin: 0 auto 26px;
-    border-radius: 8px;
-  }
-  .crit-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 14px;
-  }
-  .crit {
-    border: 1px solid #d5d9d9;
-    border-radius: 8px;
-    padding: 16px 18px;
-    transition: box-shadow .2s;
-  }
-  .crit:hover { box-shadow: 0 2px 8px rgba(15,17,17,.15); }
-  .crit .num {
-    display: inline-block;
-    background: #febd69;
-    color: #0f1111;
-    width: 26px; height: 26px;
-    border-radius: 50%;
-    text-align: center; line-height: 26px;
-    font-weight: 700; margin-bottom: 8px;
-  }
-  .crit h3 { font-size: 1em; margin-bottom: 5px; }
-  .crit p { font-size: 0.88em; color: #565959; }
+    .topbar .logo {
+      font-size: 1.5em;
+      font-weight: 700;
+      color: #fff;
+    }
 
-  /* ---- Product rows (Amazon search-result style) ---- */
-  .product {
-    display: grid;
-    grid-template-columns: 240px 1fr 260px;
-    gap: 24px;
-    padding: 24px 0;
-    border-top: 1px solid #e7e7e7;
-  }
-  .product:first-of-type { border-top: none; }
+    .topbar .logo span {
+      color: #febd69;
+    }
 
-  .p-img {
-    display: flex; align-items: center; justify-content: center;
-    height: 230px;
-  }
-  .p-img img { max-width: 100%; max-height: 230px; object-fit: contain; }
+    .topbar .tag {
+      font-size: 0.85em;
+      color: #cfd3d6;
+    }
 
-  .p-title {
-    font-size: 1.25em;
-    color: #007185;
-    margin-bottom: 6px;
-    font-weight: 500;
-  }
-  .p-title:hover { color: #c7511f; }
+    .subbar {
+      background: #232f3e;
+      color: #fff;
+      padding: 8px 24px;
+      font-size: 0.9em;
+      display: flex;
+      gap: 22px;
+    }
 
-  .stars { color: #de7921; font-size: 1.05em; letter-spacing: 1px; }
-  .rating-line { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
-  .rating-num { color: #007185; font-size: 0.9em; }
-  .tag-badge {
-    display: inline-block;
-    background: #cc0c39;
-    color: #fff;
-    font-size: 0.72em;
-    font-weight: 700;
-    padding: 2px 8px;
-    border-radius: 3px;
-    margin-bottom: 10px;
-  }
-  .tag-badge.lead { background: #067d62; }
-  .tag-badge.watch { background: #8a6d0b; }
-  .tag-badge.no { background: #565959; }
+    .subbar a {
+      color: #fff;
+    }
 
-  .feat-title { font-size: 0.85em; font-weight: 700; color: #565959; margin: 8px 0 4px; }
-  .feats { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 18px; margin-bottom: 8px; }
-  .feats li { list-style: none; font-size: 0.9em; }
-  .yes { color: #067d62; }
-  .yes::before { content: "✔ "; font-weight: 700; }
-  .no { color: #b12704; }
-  .no::before { content: "✘ "; font-weight: 700; }
-  .why { font-size: 0.88em; color: #333; margin-top: 6px; }
-  .why b { color: #b12704; }
+    .subbar a:hover {
+      text-decoration: underline;
+    }
 
-  /* ---- Buy box (right column) ---- */
-  .buybox {
-    border: 1px solid #d5d9d9;
-    border-radius: 10px;
-    padding: 16px;
-    height: fit-content;
-  }
-  .price-now { font-size: 1.7em; color: #0f1111; }
-  .price-now .sym { font-size: 0.6em; vertical-align: super; }
-  .mrp { color: #565959; font-size: 0.85em; margin: 3px 0; }
-  .mrp s { color: #565959; }
-  .save { color: #cc0c39; font-size: 0.88em; font-weight: 600; margin-bottom: 10px; }
-  .score-badge {
-    background: #f0f2f2;
-    border: 1px solid #d5d9d9;
-    border-radius: 8px;
-    padding: 8px 10px;
-    text-align: center;
-    font-weight: 700;
-    margin-bottom: 12px;
-  }
-  .btn {
-    display: block;
-    text-align: center;
-    padding: 9px;
-    border-radius: 20px;
-    font-size: 0.92em;
-    margin-bottom: 8px;
-    color: #0f1111;
-  }
-  .btn-buy { background: #ffd814; }
-  .btn-buy:hover { background: #f7ca00; }
-  .btn-site { background: #ffa41c; }
-  .btn-site:hover { background: #fa8900; }
-  .comment { font-size: 0.82em; color: #565959; font-style: italic; margin-top: 8px; }
+    .wrap {
+      max-width: 1300px;
+      margin: 18px auto;
+      padding: 0 16px;
+    }
 
-  /* ---- Eliminated ---- */
-  .elim { border-top: 1px solid #e7e7e7; margin-top: 6px; padding-top: 18px; }
-  .elim h3 { font-size: 1.05em; margin-bottom: 8px; }
-  .elim li { margin-left: 20px; color: #565959; font-size: 0.9em; margin-bottom: 4px; }
+    .panel {
+      background: #fff;
+      border-radius: 8px;
+      padding: 26px;
+      margin-bottom: 18px;
+      border: 1px solid #d5d9d9;
+    }
 
-  @media(max-width: 900px){
-    .product { grid-template-columns: 1fr; }
-    .feats { grid-template-columns: 1fr; }
-  }
-</style>
+    .panel h2 {
+      font-size: 1.5em;
+      margin-bottom: 4px;
+    }
+
+    .panel .sub {
+      color: #565959;
+      font-size: 0.92em;
+      margin-bottom: 20px;
+    }
+
+    .criteria-img {
+      width: 100%;
+      max-width: 560px;
+      display: block;
+      margin: 0 auto 26px;
+      border-radius: 8px;
+    }
+
+    .crit-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 14px;
+    }
+
+    .crit {
+      border: 1px solid #d5d9d9;
+      border-radius: 8px;
+      padding: 16px 18px;
+      transition: box-shadow .2s;
+    }
+
+    .crit:hover {
+      box-shadow: 0 2px 8px rgba(15, 17, 17, .15);
+    }
+
+    .crit .num {
+      display: inline-block;
+      background: #febd69;
+      color: #0f1111;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 26px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .crit h3 {
+      font-size: 1em;
+      margin-bottom: 5px;
+    }
+
+    .crit p {
+      font-size: 0.88em;
+      color: #565959;
+    }
+
+    .product {
+      display: grid;
+      grid-template-columns: 240px 1fr 260px;
+      gap: 24px;
+      padding: 24px 0;
+      border-top: 1px solid #e7e7e7;
+    }
+
+    .product:first-of-type {
+      border-top: none;
+    }
+
+    .p-img {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 230px;
+    }
+
+    .p-img img {
+      max-width: 100%;
+      max-height: 230px;
+      object-fit: contain;
+    }
+
+    .p-title {
+      font-size: 1.25em;
+      color: #007185;
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+
+    .p-title:hover {
+      color: #c7511f;
+    }
+
+    .rating-line {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .rating-num {
+      color: #565959;
+      font-size: 0.88em;
+    }
+
+    /* ---- Checklist ---- */
+    .checklist {
+      background: #fafbff;
+      border: 1px solid #c9dff7;
+      border-left: 4px solid #c7511f;
+      border-radius: 0 8px 8px 0;
+      padding: 11px 14px 12px;
+    }
+
+    .checklist-title {
+      font-size: 0.78em;
+      font-weight: 700;
+      color: #c7511f;
+      margin-bottom: 10px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .checks {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 18px;
+    }
+
+    .checks li {
+      list-style: none;
+      padding: 6px 8px;
+      border-radius: 5px;
+      background: rgba(0, 0, 0, 0.025);
+    }
+
+    .feat-label {
+      display: block;
+      font-size: 0.75em;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      margin-bottom: 2px;
+    }
+
+    .feat-val {
+      display: block;
+      font-size: 0.85em;
+      color: #333;
+      line-height: 1.4;
+    }
+
+    .yes .feat-label {
+      color: #067d62;
+    }
+
+    .no .feat-label {
+      color: #b12704;
+    }
+
+    .unconf .feat-label {
+      color: #8a6d0b;
+    }
+
+    .unconf .feat-val {
+      color: #666;
+      font-style: italic;
+    }
+
+    .src-link {
+      color: #007185;
+      font-size: 0.76em;
+      margin-left: 4px;
+      text-decoration: underline dotted;
+      white-space: nowrap;
+    }
+
+    .src-link:hover {
+      color: #c7511f;
+    }
+
+    /* ---- Buy box ---- */
+    .buybox {
+      border: 1px solid #d5d9d9;
+      border-radius: 10px;
+      padding: 16px;
+      height: fit-content;
+    }
+
+    .price-now {
+      font-size: 1.7em;
+      color: #0f1111;
+    }
+
+    .price-now .sym {
+      font-size: 0.6em;
+      vertical-align: super;
+    }
+
+    .mrp {
+      color: #565959;
+      font-size: 0.85em;
+      margin: 3px 0;
+    }
+
+    .mrp s {
+      color: #565959;
+    }
+
+    .save {
+      color: #cc0c39;
+      font-size: 0.88em;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .score-badge {
+      background: #f0f2f2;
+      border: 1px solid #d5d9d9;
+      border-radius: 8px;
+      padding: 8px 10px;
+      text-align: center;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .btn {
+      display: block;
+      text-align: center;
+      padding: 9px;
+      border-radius: 20px;
+      font-size: 0.92em;
+      margin-bottom: 8px;
+      color: #0f1111;
+    }
+
+    .btn-site {
+      background: #ffa41c;
+    }
+
+    .btn-site:hover {
+      background: #fa8900;
+    }
+
+    .comment {
+      font-size: 0.82em;
+      color: #565959;
+      font-style: italic;
+      margin-top: 8px;
+    }
+
+    .delhi-box {
+      margin-top: 10px;
+      padding: 8px 10px;
+      border-radius: 6px;
+      font-size: 0.8em;
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    .delhi-yes {
+      background: #e6f4ea;
+      color: #067d62;
+      font-weight: 600;
+      border: 1px solid #b2dfdb;
+    }
+
+    .delhi-no {
+      background: #f5f5f5;
+      color: #565959;
+      border: 1px solid #ddd;
+    }
+
+    .delhi-maybe {
+      background: #fff8e1;
+      color: #7a5800;
+      font-weight: 600;
+      border: 1px solid #ffe082;
+    }
+
+    .elim {
+      border-top: 1px solid #e7e7e7;
+      margin-top: 6px;
+      padding-top: 18px;
+    }
+
+    .elim h3 {
+      font-size: 1.05em;
+      margin-bottom: 8px;
+    }
+
+    .elim li {
+      margin-left: 20px;
+      color: #565959;
+      font-size: 0.9em;
+      margin-bottom: 4px;
+    }
+
+    .rating-line {
+      display: none;
+    }
+
+    .score-badge {
+      display: none;
+    }
+
+    @media(max-width: 900px) {
+      .product {
+        grid-template-columns: 1fr;
+      }
+
+      .checks {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-  <!-- Top nav -->
   <div class="topbar">
     <span class="logo">Kanishka's <span>Chair Guide</span></span>
     <span class="tag">The best seat for the best girl in the world 💜</span>
   </div>
   <div class="subbar">
-    <a href="#criteria">Our 7 Criteria</a>
+    <a href="#criteria">Our Criteria</a>
     <a href="#chairs">Top Brand Chairs</a>
     <a href="#eliminated">Eliminated</a>
   </div>
 
   <div class="wrap">
 
-    <!-- ===== SECTION 1: CRITERIA ===== -->
     <div class="panel" id="criteria">
       <h2>Learn About Our Criteria</h2>
-      <p class="sub">Every chair below is scored against these 7 must-haves.</p>
-
+      <p class="sub">Every chair below is scored against Kanishka's 4 must-haves.</p>
       <img class="criteria-img" src="criteria.png" alt="Criteria diagram">
-
       <div class="crit-grid">
-        <div class="crit"><span class="num">1</span><h3>Maintaining the "S" (Lumbar)</h3><p>Lumbar support adjustable in depth &amp; height, plus support for the mid-back.</p></div>
-        <div class="crit"><span class="num">2</span><h3>Adjustable Armrests</h3><p>Arms adjust to keep shoulders relaxed and wrists neutral.</p></div>
-        <div class="crit"><span class="num">3</span><h3>Seat Depth</h3><p>Extendable enough to support the whole thigh — no edge digging into the upper calves.</p></div>
-        <div class="crit"><span class="num">4</span><h3>Height Adjustable</h3><p>Lets your heels stay flat on the ground.</p></div>
-        <div class="crit"><span class="num">5</span><h3>Head Support (Neck a bonus)</h3><p>Head support is a must; neck support is an added benefit.</p></div>
-        <div class="crit"><span class="num">6</span><h3>Foam-Based Seat</h3><p>Cushioned foam seat rather than hard mesh for long sitting.</p></div>
-        <div class="crit"><span class="num">7</span><h3>Flexible Tilt</h3><p>Forward &amp; backward tilt for proper back support.</p></div>
+        <div class="crit"><span class="num">1</span>
+          <h3>Maintaining the "S" (Lumbar)</h3>
+          <p>Lumbar support adjustable in depth &amp; height, plus support for the mid-back.</p>
+        </div>
+        <div class="crit"><span class="num">2</span>
+          <h3>Adjustable Armrests</h3>
+          <p>Arms adjust to keep shoulders relaxed and wrists neutral.</p>
+        </div>
+        <div class="crit"><span class="num">3</span>
+          <h3>Seat Depth</h3>
+          <p>Extendable enough to support the whole thigh — no edge digging into the upper calves.</p>
+        </div>
+        <div class="crit"><span class="num">4</span>
+          <h3>Height Adjustable</h3>
+          <p>Lets your heels stay flat on the ground.</p>
+        </div>
+        <div class="crit"><span class="num">5</span>
+          <h3>Head Support (Neck a bonus)</h3>
+          <p>Head support is a must; neck support is an added benefit.</p>
+        </div>
+        <div class="crit"><span class="num">6</span>
+          <h3>Foam-Based Seat</h3>
+          <p>Cushioned foam seat rather than hard mesh for long sitting.</p>
+        </div>
+        <div class="crit"><span class="num">7</span>
+          <h3>Flexible Tilt</h3>
+          <p>Forward &amp; backward tilt for proper back support.</p>
+        </div>
       </div>
     </div>
 
-    <!-- ===== SECTION 2: CHAIRS ===== -->
     <div class="panel" id="chairs">
       <h2>Chairs From the Top Brands</h2>
-      <p class="sub">Results sorted by criteria score. Prices are live from each brand's website.</p>
+      <p class="sub">Sorted by Kanishka's 4 must-haves: adjustable armrests · adjustable neck rest · padded adjustable
+        lumbar · foam seat.</p>
 
-      <!-- beAAtho Astra -->
+      <!-- #1 DA Urban Beatle — 4/4 -->
       <div class="product">
-        <div class="p-img"><img src="https://beaatho.com/cdn/shop/files/81PrzwyvX6L._SX679.jpg?v=1758472225&width=1946" alt="beAAtho Astra"></div>
+        <div class="p-img"><img src="https://daurban.com/cdn/shop/files/gdfgddg.png?v=1733910262&width=713"
+            alt="DA Urban Beatle"></div>
         <div>
-          <a class="p-title" href="https://beaatho.com/products/beaatho-astra-luxurious-leg-support-4d-lumbar-support-145-recline-adjustable-tilt-office-study-mesh-high-back-chair-white-grey" target="_blank">beAAtho Astra — 4D Lumbar, Leg Support, 145° Recline</a>
-          <div class="rating-line"><span class="stars">★★★★★★★</span><span class="rating-num">7 out of 7 criteria</span></div>
-          <span class="tag-badge lead">TOP PICK · Maintaining a good lead</span>
-          <div class="feat-title">FEATURES (7/7)</div>
-          <ul class="feats">
-            <li class="yes">Lumbar (4D adjustable)</li>
-            <li class="yes">Adjustable armrests</li>
-            <li class="yes">Seat depth</li>
-            <li class="yes">Height adjustable</li>
-            <li class="yes">Head support</li>
-            <li class="yes">Foam seat</li>
-            <li class="yes">Flexible tilt (145°)</li>
-          </ul>
-          <p class="why">All 7 met. Standout extras: dedicated leg support and 145° recline — best value-to-feature ratio here.</p>
-        </div>
-        <div class="buybox">
-          <div class="price-now"><span class="sym">₹</span>8,666</div>
-          <div class="score-badge">Score: 7 / 7</div>
-          <a class="btn btn-site" href="https://beaatho.com/products/beaatho-astra-luxurious-leg-support-4d-lumbar-support-145-recline-adjustable-tilt-office-study-mesh-high-back-chair-white-grey" target="_blank">View on beAAtho</a>
-          <p class="comment">"Maintaining a good lead."</p>
-        </div>
-      </div>
-
-      <!-- Vergo Icon -->
-      <div class="product">
-        <div class="p-img"><img src="https://vergo.online/cdn/shop/files/1.icon-highback-mesh-office-chair-black-backview.webp?v=1760530038&width=900" alt="Vergo Icon"></div>
-        <div>
-          <a class="p-title" href="https://vergo.online/products/icon-mesh-chair" target="_blank">Vergo Icon Premium Mesh Office Chair</a>
-          <div class="rating-line"><span class="stars">★★★★★★<span style="color:#ccc">★</span></span><span class="rating-num">6 out of 7 criteria</span></div>
-          <span class="tag-badge lead">Good score till now</span>
-          <div class="feat-title">FEATURES (6/7)</div>
-          <ul class="feats">
-            <li class="yes">Lumbar support</li>
-            <li class="yes">Adjustable armrests</li>
-            <li class="yes">Seat depth</li>
-            <li class="yes">Height adjustable</li>
-            <li class="yes">Head support</li>
-            <li class="no">Foam seat — mesh</li>
-            <li class="yes">Flexible tilt</li>
-          </ul>
-          <p class="why">Mesh seat instead of foam — some prefer mesh for breathability in warm climates. Otherwise a complete, balanced package.</p>
-        </div>
-        <div class="buybox">
-          <div class="price-now"><span class="sym">₹</span>19,990</div>
-          <div class="mrp">M.R.P.: <s>₹42,980</s></div>
-          <div class="save">You save 53%</div>
-          <div class="score-badge">Score: 6 / 7</div>
-          <a class="btn btn-site" href="https://vergo.online/products/icon-mesh-chair" target="_blank">View on Vergo</a>
-          <p class="comment">"Good score till now."</p>
-        </div>
-      </div>
-
-      <!-- DA Urban Beatle -->
-      <div class="product">
-        <div class="p-img"><img src="https://daurban.com/cdn/shop/files/gdfgddg.png?v=1733910262&width=713" alt="DA Urban Beatle"></div>
-        <div>
-          <a class="p-title" href="https://daurban.com/products/da-urban%C2%AE-beatle-high-back-mesh-chair" target="_blank">DA Urban® Beatle High Back Mesh Chair</a>
-          <div class="rating-line"><span class="stars">★★★★★★<span style="color:#ccc">★</span></span><span class="rating-num">6 out of 7 criteria</span></div>
-          <span class="tag-badge">Close competition for Vergo</span>
-          <div class="feat-title">FEATURES (6/7)</div>
-          <ul class="feats">
-            <li class="yes">Lumbar support</li>
-            <li class="yes">Adjustable armrests</li>
-            <li class="yes">Seat depth</li>
-            <li class="yes">Height adjustable</li>
-            <li class="yes">Head support</li>
-            <li class="no">Foam seat — mesh</li>
-            <li class="yes">Flexible tilt</li>
-          </ul>
-          <p class="why">Feature-for-feature very close to Vergo, and now actually cheaper — a strong-value alternative.</p>
+          <a class="p-title" href="https://daurban.com/products/da-urban%C2%AE-beatle-high-back-mesh-chair"
+            target="_blank">DA Urban® Beatle High Back Mesh Chair</a>
+          <div class="rating-line">
+            <span style="color:#de7921; font-size:1.1em; letter-spacing:1px;">★★★★</span>
+            <span class="rating-num">4 / 4 Must-Haves</span>
+          </div>
+          <div class="checklist">
+            <div class="checklist-title">Features</div>
+            <ul class="checks">
+              <li class="yes">
+                <span class="feat-label">Armrests</span>
+                <span class="feat-val">Height and Moves in 2 directions <a class="src-link"
+                    href="https://www.amazon.in/vdp/1390fd6aa7424f62bb0ce0804ab14d01?aci=amzn1.ive.vendor.video.1390fd6aa7424f62bb0ce0804ab14d01&product=B0CKYZJYZK&ref=cm_sw_cp_r_ib_dt_wPCgk3BYPMEYd"
+                    target="_blank">[source]</a></span>
+              </li>
+              <li class="yes">
+                <span class="feat-label">Neck Rest</span>
+                <span class="feat-val">Height Adjustable + Tilt Adjustable<a class="src-link"
+                    href="https://www.amazon.in/dp/B0CKYZJYZK" target="_blank">[source]</a></span>
+              </li>
+              <li class="yes">
+                <span class="feat-label">Lumbar</span>
+                <span class="feat-val">Adaptable <a class="src-link" href="https://www.amazon.in/dp/B0CKYZJYZK"
+                    target="_blank">[source]</a></span>
+              </li>
+              <li class="yes">
+                <span class="feat-label">Seat</span>
+                <span class="feat-val"> Mesh (Internal Seat Material: Wood and Seat Frame Material: Nylon) <a
+                    class="src-link" href="https://www.amazon.in/dp/B0CKYZJYZK" target="_blank">[source]</a></span>
+              </li>
+            </ul>
+          </div>
         </div>
         <div class="buybox">
           <div class="price-now"><span class="sym">₹</span>9,999</div>
           <div class="mrp">M.R.P.: <s>₹29,990</s></div>
           <div class="save">You save 66%</div>
-          <div class="score-badge">Score: 6 / 7</div>
-          <a class="btn btn-site" href="https://daurban.com/products/da-urban%C2%AE-beatle-high-back-mesh-chair" target="_blank">View on DA Urban</a>
-          <p class="comment">"Close competition for Vergo."</p>
+          <div class="score-badge">4 / 4 Must-Haves ✔</div>
+          <a class="btn btn-site" href="https://daurban.com/products/da-urban%C2%AE-beatle-high-back-mesh-chair"
+            target="_blank">View on DA Urban</a>
+          <div class="delhi-box delhi-no">🏪 Online only<br>Delhi-based brand — online-first<br><small>daurban.com · +91
+              92679 96127</small></div>
         </div>
       </div>
 
-      <!-- Frido AeroMesh -->
+      <!-- #2 Featherlite Optima — 4/4 -->
       <div class="product">
-        <div class="p-img"><img src="https://cdn.shopify.com/s/files/1/0553/0419/2034/files/55308_9477559a-4d85-49ae-ac69-81999227d7e2.jpg?v=1780044839&width=1080" alt="Frido AeroMesh"></div>
+        <div class="p-img"><img src="https://featherlitestore.com/wp-content/uploads/2020/05/optima2-1024x1024.jpg"
+            alt="Featherlite Optima"></div>
         <div>
-          <a class="p-title" href="https://myfrido.com/products/frido-aeromesh-ergo-chair" target="_blank">Frido AeroMesh Ergo Chair</a>
-          <div class="rating-line"><span class="stars">★★★★★★<span style="color:#ccc">★</span></span><span class="rating-num">6 out of 7 criteria</span></div>
-          <span class="tag-badge">In the running</span>
-          <div class="feat-title">FEATURES (6/7)</div>
-          <ul class="feats">
-            <li class="yes">Lumbar support</li>
-            <li class="yes">Adjustable armrests</li>
-            <li class="yes">Seat depth</li>
-            <li class="yes">Height adjustable</li>
-            <li class="yes">Head support</li>
-            <li class="no">Foam seat — mesh</li>
-            <li class="yes">Flexible tilt</li>
-          </ul>
-          <p class="why">Mesh seat, not foam. Breathable build, well-reviewed, and competitive on price for the feature set.</p>
+          <a class="p-title"
+            href="https://featherlitestore.com/product/featherlite-optima-high-back-mesh-chair-with-multilock-seat-sliding-mechanism-three-way-adjustable-arms/"
+            target="_blank">Featherlite Optima High Back Mesh Chair</a>
+          <div class="rating-line">
+            <span style="color:#de7921; font-size:1.1em; letter-spacing:1px;">★★★★</span>
+            <span class="rating-num">4 / 4 Must-Haves</span>
+          </div>
+          <div class="checklist">
+            <div class="checklist-title">Features</div>
+            <ul class="checks">
+              <li class="yes">
+                <span class="feat-label">Armrests</span>
+                <span class="feat-val">3-way: up/down, forward/back, left/right <a class="src-link"
+                    href="https://m.media-amazon.com/images/I/71qA7o8oX6L._SL1500_.jpg"
+                    target="_blank">[source]</a></span>
+              </li>
+              <li class="yes">
+                <span class="feat-label">Neck Rest</span>
+                <span class="feat-val">Height Adjustable + Tilt Adjustablee<a class="src-link"
+                    href="https://m.media-amazon.com/images/I/71niRiU9TJL._SL1500_.jpg"
+                    target="_blank">[source]</a></span>
+              </li>
+              <li class="yes">
+                <span class="feat-label">Lumbar</span>
+                <span class="feat-val">Adjustable Lumbar Support<a class="src-link"
+                    href="https://m.media-amazon.com/images/I/71niRiU9TJL._SL1500_.jpg"
+                    target="_blank">[source]</a></span>
+              </li>
+              <li class="yes">
+                <span class="feat-label">Seat</span>
+                <span class="feat-val">Fabric Upholstered Cushion Seat <a class="src-link"
+                    href="https://m.media-amazon.com/images/I/71ry-jsrIIL._SX679_.jpg"
+                    target="_blank">[source]</a></span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="buybox">
+          <div class="price-now"><span class="sym">₹</span>28,199</div>
+          <div class="mrp">incl. GST &amp; shipping</div>
+          <div class="score-badge">4 / 4 Must-Haves ✔</div>
+          <a class="btn btn-site"
+            href="https://featherlitestore.com/product/featherlite-optima-high-back-mesh-chair-with-multilock-seat-sliding-mechanism-three-way-adjustable-arms/"
+            target="_blank">View on Featherlite</a>
+          <div class="delhi-box delhi-maybe">🏪 Likely available in Delhi<br>62+ locations pan-India<br><small>Call 080
+              4719 1010 to confirm Delhi showroom</small></div>
+        </div>
+      </div>
+
+      <!-- #3 Frido AeroMesh — 3/4 -->
+      <div class="product">
+        <div class="p-img"><img
+            src="https://cdn.shopify.com/s/files/1/0553/0419/2034/files/55308_9477559a-4d85-49ae-ac69-81999227d7e2.jpg?v=1780044839&width=1080"
+            alt="Frido AeroMesh"></div>
+        <div>
+          <a class="p-title" href="https://myfrido.com/products/frido-aeromesh-ergo-chair" target="_blank">Frido
+            AeroMesh Ergo Chair</a>
+          <div class="rating-line">
+            <span style="font-size:1.1em; letter-spacing:1px;"><span style="color:#de7921;">★★★</span><span
+                style="color:#ccc;">★</span></span>
+            <span class="rating-num">3 / 4 Must-Haves · no foam seat</span>
+          </div>
+          <div class="checklist">
+            <div class="checklist-title">Features</div>
+            <ul class="checks">
+              <li class="yes">
+                <span class="feat-label">Armrests</span>
+                <span class="feat-val">Soft PVC armrest padding with adjustable height <a class="src-link"
+                    href="https://myfrido.com/products/frido-aeromesh-ergo-chair" target="_blank">[source]</a></span>
+              </li>
+              <li class="yes">
+                <span class="feat-label">Neck Rest</span>
+                <span class="feat-val"> Adjustable <a class="src-link"
+                    href="https://www.amazon.in/Frido-AeroMesh-Ergo-Chair-Customizable/dp/B0DVPR3S5W/ref=sr_1_6?crid=1TIQSRSNMLUQP&dib=eyJ2IjoiMSJ9.t5aO1YhyKJrfV6qjFgu-sSFLpSSpQWbSDypx39iTel8M0uh6kcR-Tww6tL7tUASG_JfB-EI02k9j1Ei-COh67k66NLNRk8lTFEL2pKAVUyWdvyh30K0nGS-VImR7Fze7ozbTxVz5M6v8mxw7To675Zos1Sn_tyZZhI4RGgzi7SUJQe4_iE0L11SS0Q0aDgMWGfNc5CU94_Xcclu9S3RvvfyX2nCHwY8MWzxGh3k-D-KLeBu8su65qIRUSBUsj0yHjgFk3O5kT7wZh95Je1twhPrqzJ9uA7wCLaiUCVoloJg.XVnypCYe9RpUl7ZtlA0Yxmj03shIRG1cYa3cKseSApQ&dib_tag=se&keywords=Frido%2BAeroMesh%2BErgo%2BChair&qid=1788876897&sprefix=frido%2Baeromesh%2Bergo%2Bchair%2Caps%2C330&sr=8-6&th=1"
+                    target="_blank">[source]</a></span>
+
+              </li>
+              <li class="yes">
+                <span class="feat-label">Lumbar</span>
+                <span class="feat-val">Adaptive <a class="src-link"
+                    href="https://myfrido.com/products/frido-aeromesh-ergo-chair" target="_blank">[source]</a></span>
+              </li>
+              <li class="no">
+                <span class="feat-label">Seat</span>
+                <span class="feat-val">AeroMesh™ Fabric <a class="src-link"
+                    href="https://myfrido.com/products/frido-aeromesh-ergo-chair" target="_blank">[source]</a></span>
+              </li>
+            </ul>
+          </div>
         </div>
         <div class="buybox">
           <div class="price-now"><span class="sym">₹</span>16,999</div>
           <div class="mrp">M.R.P.: <s>₹25,000</s></div>
           <div class="save">You save 32%</div>
-          <div class="score-badge">Score: 6 / 7</div>
-          <a class="btn btn-site" href="https://myfrido.com/products/frido-aeromesh-ergo-chair" target="_blank">View on Frido</a>
+          <div class="score-badge">3 / 4 Must-Haves</div>
+          <a class="btn btn-site" href="https://myfrido.com/products/frido-aeromesh-ergo-chair" target="_blank">View on
+            Frido</a>
+          <div class="delhi-box delhi-no">🏪 Online only<br>No Delhi store confirmed<br><small>myfrido.com</small></div>
         </div>
       </div>
 
-      <!-- Featherlite Optima -->
+      <!-- #4 Ultron Premium — 3/4 -->
       <div class="product">
-        <div class="p-img"><img src="https://featherlitestore.com/wp-content/uploads/2020/05/optima2-1024x1024.jpg" alt="Featherlite Optima"></div>
+        <div class="p-img"><img
+            src="https://thesleepcompany.in/cdn/shop/files/UltronPremiumErgonomicdesktopblack_1.webp?v=1782720483&width=1400"
+            alt="Ultron Premium"></div>
         <div>
-          <a class="p-title" href="https://featherlitestore.com/product/featherlite-optima-high-back-mesh-chair-with-multilock-seat-sliding-mechanism-three-way-adjustable-arms/" target="_blank">Featherlite Optima High Back Mesh Chair</a>
-          <div class="rating-line"><span class="stars">★★★★★<span style="color:#ccc">★★</span></span><span class="rating-num">5 out of 7 criteria</span></div>
-          <span class="tag-badge watch">In the running</span>
-          <div class="feat-title">FEATURES (5/7)</div>
-          <ul class="feats">
-            <li class="yes">Lumbar support</li>
-            <li class="yes">3-way adjustable arms</li>
-            <li class="yes">Seat depth (Multilock)</li>
-            <li class="yes">Height adjustable</li>
-            <li class="no">Head support — limited</li>
-            <li class="no">Foam seat — mesh</li>
-            <li class="yes">Flexible tilt</li>
-          </ul>
-          <p class="why">Weaker headrest and mesh seat, but the Multilock seat-slide and true 3-way arms are strong — from a trusted brand.</p>
-        </div>
-        <div class="buybox">
-          <div class="price-now"><span class="sym">₹</span>28,199</div>
-          <div class="mrp">incl. GST &amp; shipping</div>
-          <div class="score-badge">Score: 5 / 7</div>
-          <a class="btn btn-site" href="https://featherlitestore.com/product/featherlite-optima-high-back-mesh-chair-with-multilock-seat-sliding-mechanism-three-way-adjustable-arms/" target="_blank">View on Featherlite</a>
-        </div>
-      </div>
-
-      <!-- Green Soul Icon Pro -->
-      <div class="product">
-        <div class="p-img"><img src="https://www.greensoul.online/cdn/shop/files/icon_pro_main_3.jpg?v=1756712006&width=900" alt="Green Soul Icon Pro"></div>
-        <div>
-          <a class="p-title" href="https://www.greensoul.online/collections/office-chairs/products/green-soul-icon-pro-ergonomic-office-chair" target="_blank">Green Soul Icon Pro Premium Ergonomic Chair</a>
-          <div class="rating-line"><span class="stars">★★★★★<span style="color:#ccc">★★</span></span><span class="rating-num">5 out of 7 criteria</span></div>
-          <span class="tag-badge watch">In the running</span>
-          <div class="feat-title">FEATURES (5/7)</div>
-          <ul class="feats">
-            <li class="yes">Lumbar support</li>
-            <li class="yes">Adjustable armrests</li>
-            <li class="yes">Seat depth</li>
-            <li class="yes">Height adjustable</li>
-            <li class="yes">Head support</li>
-            <li class="no">Foam seat — mesh</li>
-            <li class="no">Tilt — basic only</li>
-          </ul>
-          <p class="why">Basic tilt and mesh seat. Popular, widely available brand with good after-sales support — a safe mid-range pick.</p>
-        </div>
-        <div class="buybox">
-          <div class="price-now"><span class="sym">₹</span>27,990</div>
-          <div class="mrp">M.R.P.: <s>₹51,999</s></div>
-          <div class="save">You save 46%</div>
-          <div class="score-badge">Score: 5 / 7</div>
-          <a class="btn btn-site" href="https://www.greensoul.online/collections/office-chairs/products/green-soul-icon-pro-ergonomic-office-chair" target="_blank">View on Green Soul</a>
-        </div>
-      </div>
-
-      <!-- CELLBELL Ergoglide FT -->
-      <div class="product">
-        <div class="p-img"><img src="https://m.media-amazon.com/images/I/71VfhPO9PpL._SX679_.jpg" alt="CELLBELL Ergoglide FT"></div>
-        <div>
-          <a class="p-title" href="https://www.amazon.in/CELLBELL-Ergoglide-Ergonomic-Footrest-Hydraulic/dp/B0GTZBJZWQ" target="_blank">CELLBELL Ergoglide FT Ergonomic Chair (with Footrest)</a>
-          <div class="rating-line"><span class="stars">★★★★★<span style="color:#ccc">★★</span></span><span class="rating-num">5 out of 7 criteria</span></div>
-          <span class="tag-badge watch">Budget extra</span>
-          <div class="feat-title">FEATURES (5/7)</div>
-          <ul class="feats">
-            <li class="yes">Lumbar support</li>
-            <li class="yes">Adjustable armrests</li>
-            <li class="yes">Seat depth</li>
-            <li class="yes">Height adjustable</li>
-            <li class="no">Head support — limited</li>
-            <li class="no">Foam seat — mesh</li>
-            <li class="yes">Flexible tilt</li>
-          </ul>
-          <p class="why">Adds a built-in footrest — a nice bonus for reclining. Budget-friendly, though the headrest is weak.</p>
-        </div>
-        <div class="buybox">
-          <div class="price-now"><span class="sym">₹</span>7,999</div>
-          <div class="score-badge">Score: 5 / 7</div>
-          <a class="btn btn-site" href="https://www.amazon.in/CELLBELL-Ergoglide-Ergonomic-Footrest-Hydraulic/dp/B0GTZBJZWQ" target="_blank">View on Amazon</a>
-        </div>
-      </div>
-
-      <!-- Ultron Premium -->
-      <div class="product">
-        <div class="p-img"><img src="https://thesleepcompany.in/cdn/shop/files/UltronPremiumErgonomicdesktopblack_1.webp?v=1782720483&width=1400" alt="Ultron Premium"></div>
-        <div>
-          <a class="p-title" href="https://thesleepcompany.in/products/ultron-premium-ergonomic-office-chair" target="_blank">The Sleep Company — Ultron Premium Ergonomic Chair</a>
-          <div class="rating-line"><span class="stars">★★★★★<span style="color:#ccc">★★</span></span><span class="rating-num">5 out of 7 criteria</span></div>
-          <span class="tag-badge no">Con: high price</span>
-          <div class="feat-title">FEATURES (5/7)</div>
-          <ul class="feats">
-            <li class="yes">Lumbar support</li>
-            <li class="yes">Adjustable armrests</li>
-            <li class="yes">Seat depth</li>
-            <li class="yes">Height adjustable</li>
-            <li class="yes">Head support</li>
-            <li class="no">Foam seat — mesh</li>
-            <li class="yes">Flexible tilt</li>
-          </ul>
-          <p class="why">Feature-rich, but the <b>~₹37,000 price</b> is the dealbreaker — the same 7-point coverage is available for far less (e.g. beAAtho Astra).</p>
+          <a class="p-title" href="https://thesleepcompany.in/products/ultron-premium-ergonomic-office-chair"
+            target="_blank">The Sleep Company — Ultron Premium Ergonomic Chair</a>
+          <div class="rating-line">
+            <span style="font-size:1.1em; letter-spacing:1px;"><span style="color:#de7921;">★★★</span><span
+                style="color:#ccc;">★</span></span>
+            <span class="rating-num">3 / 4 Must-Haves · foam unconfirmed</span>
+          </div>
+          <div class="checklist">
+            <div class="checklist-title">Features</div>
+            <ul class="checks">
+              <li class="yes">
+                <span class="feat-label">Armrests</span>
+                <span class="feat-val">Adjusts 7 ways — most flexible on this list <a class="src-link"
+                    href="https://thesleepcompany.in/products/ultron-premium-ergonomic-office-chair"
+                    target="_blank">[source]</a></span>
+              </li>
+              <li class="yes">
+                <span class="feat-label">Neck Rest</span>
+                <span class="feat-val">3D Adjustable Headrest<a class="src-link"
+                    href="https://thesleepcompany.in/products/ultron-premium-ergonomic-office-chair"
+                    target="_blank">[source]</a></span>
+              </li>
+              <li class="yes">
+                <span class="feat-label">Lumbar</span>
+                <span class="feat-val">Backrest flexes and adjusts to your posture <a class="src-link"
+                    href="https://thesleepcompany.in/products/ultron-premium-ergonomic-office-chair"
+                    target="_blank">[source]</a></span>
+              </li>
+              <li class="unconf">
+                <span class="feat-label">Seat</span>
+                <span class="feat-val">Premium Mesh<a class="src-link"
+                    href="https://thesleepcompany.in/products/ultron-premium-ergonomic-office-chair"
+                    target="_blank">[source]</a></span>
+              </li>
+            </ul>
+          </div>
         </div>
         <div class="buybox">
           <div class="price-now"><span class="sym">₹</span>36,999</div>
           <div class="mrp">M.R.P.: <s>₹75,998</s></div>
           <div class="save">You save 51%</div>
-          <div class="score-badge">Score: 5 / 7</div>
-          <a class="btn btn-site" href="https://thesleepcompany.in/products/ultron-premium-ergonomic-office-chair" target="_blank">View on The Sleep Company</a>
-          <p class="comment">"Con would be price 37k."</p>
+          <div class="score-badge">3 / 4 Must-Haves</div>
+          <a class="btn btn-site" href="https://thesleepcompany.in/products/ultron-premium-ergonomic-office-chair"
+            target="_blank">View on The Sleep Company</a>
+          <p class="comment">High price point at ₹36,999.</p>
+          <div class="delhi-box delhi-yes">🏪 Delhi &amp; NCR stores available<br>Delhi · Gurugram · Noida<br><small><a
+                href="https://www.thesleepcompany.in/pages/our-store" target="_blank" style="color:#067d62;">Find
+                store</a> · +91-9811981911</small></div>
         </div>
       </div>
 
-      <!-- Tranquo Massager -->
+      <!-- #5 Vergo Icon — 3/4 -->
       <div class="product">
-        <div class="p-img"><img src="https://thesleepcompany.in/cdn/shop/files/01_1bbaec59-d8f8-4b41-8805-073e4772e3b2.webp?v=1779780206&width=1400" alt="Tranquo Massager Chair"></div>
+        <div class="p-img"><img
+            src="https://vergo.online/cdn/shop/files/1.icon-highback-mesh-office-chair-black-backview.webp?v=1760530038&width=900"
+            alt="Vergo Icon"></div>
         <div>
-          <a class="p-title" href="https://thesleepcompany.in/products/tranquo-massager-chair" target="_blank">The Sleep Company — Tranquo Massager Chair</a>
-          <div class="rating-line"><span class="stars">★★<span style="color:#ccc">★★★★★</span></span><span class="rating-num">2 out of 7 criteria</span></div>
-          <span class="tag-badge no">Not recommended</span>
-          <div class="feat-title">FEATURES (2/7)</div>
-          <ul class="feats">
-            <li class="no">Lumbar (fixed)</li>
-            <li class="no">Adjustable armrests</li>
-            <li class="no">Seat depth</li>
-            <li class="yes">Height adjustable</li>
-            <li class="no">Head support</li>
-            <li class="yes">Foam seat</li>
-            <li class="no">Flexible tilt</li>
-          </ul>
-          <p class="why">Built around a massage gimmick rather than ergonomics. Fails most core criteria — the massager doesn't make up for poor support.</p>
+          <a class="p-title" href="https://vergo.online/products/icon-mesh-chair" target="_blank">Vergo Icon Premium
+            Mesh Office Chair</a>
+          <div class="rating-line">
+            <span style="font-size:1.1em; letter-spacing:1px;"><span style="color:#de7921;">★★★</span><span
+                style="color:#ccc;">★</span></span>
+            <span class="rating-num">3 / 4 Must-Haves · no foam seat</span>
+          </div>
+          <div class="checklist">
+            <div class="checklist-title">Features</div>
+            <ul class="checks">
+              <li class="yes">
+                <span class="feat-label">Armrests</span>
+                <span class="feat-val">4D PU-padded, moves every direction <a class="src-link"
+                    href="https://www.amazon.in/Vergo-Ergonomic-Adjustable-Headrest-Revolving/dp/B0DGV8FLRC"
+                    target="_blank">[source]</a></span>
+              </li>
+              <li class="yes">
+                <span class="feat-label">Neck Rest</span>
+                <span class="feat-val">1D Adjustable up and down <a class="src-link"
+                    href="https://www.amazon.in/Vergo-Ergonomic-Adjustable-Headrest-Revolving/dp/B0DGV8FLRC"
+                    target="_blank">[source]</a></span>
+              </li>
+              <li class="yes">
+                <span class="feat-label">Lumbar</span>
+                <span class="feat-val">Adjustable up and down<a class="src-link"
+                    href="https://vergo.online/products/icon-mesh-chair" target="_blank">[source]</a></span>
+              </li>
+              <li class="no">
+                <span class="feat-label">Seat</span>
+                <span class="feat-val">Premium Mesh<a class="src-link"
+                    href="https://www.amazon.in/Vergo-Ergonomic-Adjustable-Headrest-Revolving/dp/B0DGV8FLRC"
+                    target="_blank">[source]</a></span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="buybox">
+          <div class="price-now"><span class="sym">₹</span>19,990</div>
+          <div class="mrp">M.R.P.: <s>₹42,980</s></div>
+          <div class="save">You save 53%</div>
+          <div class="score-badge">3 / 4 Must-Haves</div>
+          <a class="btn btn-site" href="https://vergo.online/products/icon-mesh-chair" target="_blank">View on Vergo</a>
+          <div class="delhi-box delhi-no">🏪 Online only<br>No Delhi store confirmed<br><small>vergo.online</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- #6 Green Soul Icon Pro — 3/4 -->
+      <div class="product">
+        <div class="p-img"><img
+            src="https://www.greensoul.online/cdn/shop/files/icon_pro_main_3.jpg?v=1756712006&width=900"
+            alt="Green Soul Icon Pro"></div>
+        <div>
+          <a class="p-title"
+            href="https://www.greensoul.online/collections/office-chairs/products/green-soul-icon-pro-ergonomic-office-chair"
+            target="_blank">Green Soul Icon Pro Premium Ergonomic Chair</a>
+          <div class="rating-line">
+            <span style="font-size:1.1em; letter-spacing:1px;"><span style="color:#de7921;">★★★</span><span
+                style="color:#ccc;">★</span></span>
+            <span class="rating-num">3 / 4 Must-Haves · no foam seat</span>
+          </div>
+          <div class="checklist">
+            <div class="checklist-title">Features</div>
+            <ul class="checks">
+              <li class="yes">
+                <span class="feat-label">Armrests</span>
+                <span class="feat-val">4D adjustable armrests <a class="src-link"
+                    href="https://www.greensoul.online/collections/office-chairs/products/green-soul-icon-pro-ergonomic-office-chair"
+                    target="_blank">[source]</a></span>
+              </li>
+              <li class="yes">
+                <span class="feat-label">Neck Rest</span>
+                <span class="feat-val">2D adjustable headrest <a class="src-link"
+                    href="https://www.greensoul.online/collections/office-chairs/products/green-soul-icon-pro-ergonomic-office-chair"
+                    target="_blank">[source]</a></span>
+              </li>
+              <li class="yes">
+                <span class="feat-label">Lumbar</span>
+                <span class="feat-val">ErgoLift Back Technology - (According to gemini) - It allows for effortless,
+                  independent height and curvature adjustments of both the backrest and the lumbar pad to provide highly
+                  personalized spinal alignment <a class="src-link"
+                    href="https://www.greensoul.online/collections/office-chairs/products/green-soul-icon-pro-ergonomic-office-chair"
+                    target="_blank">[source]</a></span>
+              </li>
+              <li class="no">
+                <span class="feat-label">Seat</span>
+                <span class="feat-val">Wired Korean Mesh <a class="src-link"
+                    href="https://www.greensoul.online/collections/office-chairs/products/green-soul-icon-pro-ergonomic-office-chair"
+                    target="_blank">[source]</a></span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="buybox">
+          <div class="price-now"><span class="sym">₹</span>27,990</div>
+          <div class="mrp">M.R.P.: <s>₹51,999</s></div>
+          <div class="save">You save 46%</div>
+          <div class="score-badge">3 / 4 Must-Haves</div>
+          <a class="btn btn-site"
+            href="https://www.greensoul.online/collections/office-chairs/products/green-soul-icon-pro-ergonomic-office-chair"
+            target="_blank">View on Green Soul</a>
+          <div class="delhi-box delhi-no">🏪 Online only (Amazon / greensoul.online)<br>No confirmed Delhi
+            store<br><small>+91 8444-956-789</small></div>
+        </div>
+      </div>
+
+      <!-- #7 CELLBELL Ergoglide FT — 2/4 -->
+      <div class="product">
+        <div class="p-img"><img src="https://m.media-amazon.com/images/I/71VfhPO9PpL._SX679_.jpg"
+            alt="CELLBELL Ergoglide FT"></div>
+        <div>
+          <a class="p-title" href="https://www.amazon.in/CELLBELL-Ergoglide-Ergonomic-Footrest-Hydraulic/dp/B0GTZBJZWQ"
+            target="_blank">CELLBELL Ergoglide FT Ergonomic Chair (with Footrest)</a>
+          <div class="rating-line">
+            <span style="font-size:1.1em; letter-spacing:1px;"><span style="color:#de7921;">★★</span><span
+                style="color:#ccc;">★★</span></span>
+            <span class="rating-num">2 / 4 Must-Haves · no neck rest</span>
+          </div>
+          <div class="checklist">
+            <div class="checklist-title">Features</div>
+            <ul class="checks">
+              <li class="yes">
+                <span class="feat-label">Armrests</span>
+                <span class="feat-val">2D Adjustable Armrests<a class="src-link"
+                    href="https://cellbell.in/products/ergoglide-executive-high-back-office-chair"
+                    target="_blank">[source]</a></span>
+              </li>
+              <li class="no">
+                <span class="feat-label">Neck Rest</span>
+                <span class="feat-val">2D Adjustable Headrest<a class="src-link"
+                    href="https://cellbell.in/products/ergoglide-executive-high-back-office-chair"
+                    target="_blank">[source]</a></span>
+              </li>
+              <li class="yes">
+                <span class="feat-label">Lumbar</span>
+                <span class="feat-val">Adjustable (Too vague, please click source) <a class="src-link"
+                    href="https://m.media-amazon.com/images/I/71wG7Xnz8fL._SX679_.jpg"
+                    target="_blank">[source]</a></span>
+              </li>
+              <li class="unconf">
+                <span class="feat-label">Seat</span>
+                <span class="feat-val">45D Foam Seat<a class="src-link"
+                    href="https://www.amazon.in/CELLBELL-Ergoglide-Ergonomic-Footrest-Hydraulic/dp/B0GTZBJZWQ?th=1"
+                    target="_blank">[source]</a></span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="buybox">
+          <div class="price-now"><span class="sym">₹</span>7,999</div>
+          <div class="score-badge">2 / 4 Must-Haves</div>
+          <a class="btn btn-site"
+            href="https://www.amazon.in/CELLBELL-Ergoglide-Ergonomic-Footrest-Hydraulic/dp/B0GTZBJZWQ"
+            target="_blank">View on Amazon</a>
+          <div class="delhi-box delhi-no">🏪 Online only (Amazon)<br>No Delhi store<br><small>cellbell.in</small></div>
+        </div>
+      </div>
+
+      <!-- #8 Tranquo Massager — 2/4 -->
+      <div class="product">
+        <div class="p-img"><img
+            src="https://thesleepcompany.in/cdn/shop/files/01_1bbaec59-d8f8-4b41-8805-073e4772e3b2.webp?v=1779780206&width=1400"
+            alt="Tranquo Massager Chair"></div>
+        <div>
+          <a class="p-title" href="https://thesleepcompany.in/products/tranquo-massager-chair" target="_blank">The Sleep
+            Company — Tranquo Massager Chair</a>
+          <div class="rating-line">
+            <span style="font-size:1.1em; letter-spacing:1px;"><span style="color:#de7921;">★★</span><span
+                style="color:#ccc;">★★</span></span>
+            <span class="rating-num">2 / 4 Must-Haves · no adjustable lumbar</span>
+          </div>
+          <div class="checklist">
+            <div class="checklist-title">Features</div>
+            <ul class="checks">
+              <li class="yes">
+                <span class="feat-label">Armrests</span>
+                <span class="feat-val">Adjusts 7 ways<a class="src-link"
+                    href="https://thesleepcompany.in/cdn/shop/files/06_b463736e-7854-48d1-b153-59a9661786c3.webp?v=1779780206&width=1400"
+                    target="_blank">[source]</a></span>
+              </li>
+              <li class="no">
+                <span class="feat-label">Neck Rest</span>
+                <span class="feat-val">2D Headrest<a class="src-link"
+                    href="https://thesleepcompany.in/cdn/shop/files/06_b463736e-7854-48d1-b153-59a9661786c3.webp?v=1779780206&width=1400"
+                    target="_blank">[source]</a></span>
+              </li>
+              <li class="no">
+                <span class="feat-label">Lumbar</span>
+                <span class="feat-val">Adjustable (Depth) + Massager <a class="src-link"
+                    href="https://thesleepcompany.in/products/tranquo-massager-chair"
+                    target="_blank">[source]</a></span>
+              </li>
+              <li class="yes">
+                <span class="feat-label">Seat</span>
+                <span class="feat-val">Patented SmartGRID® Technology Seat <a class="src-link"
+                    href="https://thesleepcompany.in/cdn/shop/files/03_dd4b58cd-36e7-415e-8904-1ab66ae7ec46.webp?v=1779780206&width=1400"
+                    target="_blank">[source]</a></span>
+              </li>
+            </ul>
+          </div>
         </div>
         <div class="buybox">
           <div class="price-now"><span class="sym">₹</span>22,999</div>
           <div class="mrp">M.R.P.: <s>₹49,999</s></div>
           <div class="save">You save 54%</div>
-          <div class="score-badge">Score: 2 / 7</div>
-          <a class="btn btn-site" href="https://thesleepcompany.in/products/tranquo-massager-chair" target="_blank">View on The Sleep Company</a>
-          <p class="comment">"Lowest rated as per my criteria."</p>
+          <div class="score-badge">2 / 4 Must-Haves</div>
+          <a class="btn btn-site" href="https://thesleepcompany.in/products/tranquo-massager-chair" target="_blank">View
+            on The Sleep Company</a>
+          <div class="delhi-box delhi-yes">🏪 Delhi &amp; NCR stores available<br>Delhi · Gurugram · Noida<br><small><a
+                href="https://www.thesleepcompany.in/pages/our-store" target="_blank" style="color:#067d62;">Find
+                store</a> · +91-9811981911</small></div>
         </div>
       </div>
 
-      <!-- Eliminated -->
+      <!-- #9 beAAtho Astra — 1/4 confirmed -->
+      <div class="product">
+        <div class="p-img"><img src="https://beaatho.com/cdn/shop/files/81PrzwyvX6L._SX679.jpg?v=1758472225&width=1946"
+            alt="beAAtho Astra"></div>
+        <div>
+          <a class="p-title"
+            href="https://beaatho.com/products/beaatho-astra-luxurious-leg-support-4d-lumbar-support-145-recline-adjustable-tilt-office-study-mesh-high-back-chair-white-grey"
+            target="_blank">beAAtho Astra — 4D Lumbar, Leg Support, 145° Recline</a>
+          <div class="rating-line">
+            <span style="font-size:1.1em; letter-spacing:1px;"><span style="color:#de7921;">★</span><span
+                style="color:#ccc;">★★★</span></span>
+            <span class="rating-num">1 / 4 Confirmed · 3 unverified</span>
+          </div>
+          <div class="checklist">
+            <div class="checklist-title">Features</div>
+            <ul class="checks">
+              <li class="unconf">
+                <span class="feat-label">Armrests</span>
+                <span class="feat-val">Soft touch arm rest (No movement)<a class="src-link"
+                    href="https://www.amazon.in/beAAtho-Astra-Luxurious-Support-Adjustable/dp/B0FQVL25Z4"
+                    target="_blank">[source]</a></span>
+              </li>
+              <li class="unconf">
+                <span class="feat-label">Neck Rest</span>
+                <span class="feat-val">Not much information available but looks fixed - click source to view image<a
+                    class="src-link" href="https://m.media-amazon.com/images/I/71EieRNrDhL._SL1500_.jpg"
+                    target="_blank">[source]</a></span>
+              </li>
+              <li class="yes">
+                <span class="feat-label">Lumbar</span>
+                <span class="feat-val">Height and Depth<a class="src-link"
+                    href="https://www.amazon.in/beAAtho-Astra-Luxurious-Support-Adjustable/dp/B0FQVL25Z4"
+                    target="_blank">[source]</a></span>
+              </li>
+              <li class="unconf">
+                <span class="feat-label">Seat</span>
+                <span class="feat-val">Mesh <a class="src-link"
+                    href="https://www.amazon.in/beAAtho-Astra-Luxurious-Support-Adjustable/dp/B0FQVL25Z4"
+                    target="_blank">[source]</a></span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="buybox">
+          <div class="price-now"><span class="sym">₹</span>8,666</div>
+          <div class="score-badge">1 / 4 Confirmed</div>
+          <a class="btn btn-site"
+            href="https://beaatho.com/products/beaatho-astra-luxurious-leg-support-4d-lumbar-support-145-recline-adjustable-tilt-office-study-mesh-high-back-chair-white-grey"
+            target="_blank">View on beAAtho</a>
+          <div class="delhi-box delhi-no">🏪 Online only<br>No Delhi store · Ships from
+            Maharashtra<br><small>beaatho.com · +91 80808 07550</small></div>
+        </div>
+      </div>
+
       <div class="elim" id="eliminated">
         <h3>❌ Eliminated Before Scoring</h3>
         <ul>
@@ -486,4 +953,5 @@
   </div>
 
 </body>
+
 </html>
